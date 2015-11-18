@@ -1,0 +1,90 @@
+<!-- This HTML Doc is the View interface in an MVC pattern to todoapp.py-->
+<html lang="en">
+  <head>
+    <title>To Do List</title>
+    <style>
+      body {
+        font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+      }
+      table {
+          width: 55%;
+      }
+
+      table, td, th {
+          border: 1px solid white;
+      }
+
+      th {
+          background-color: #142857;
+          color: #ffffff;
+          font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+          text-align: left;
+      }
+
+      td {
+          background-color: #009fff;
+          color: #ffffff;
+          font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif
+      }
+    </style>
+  </head>
+
+  <body>
+
+  <b>To Do List:</b><br>
+    <!-- Start displaying the to do list as a table -->
+    <table>
+      <tr>
+          <th style="width:55%">Task</th>
+          <th style="width:25%">Owner</th>
+          <th style="width:10%">Priority</th>
+          <th>Action</th>
+      </tr>
+        {% for task in to_do_list %}
+            <tr>
+                <td>{{ task.task }}</td>
+                <td>{{ task.owner }}</td>
+                <td>{{ task.priority }}</td>
+                <td valign="center" align="center">
+                  <!-- Keep track of the index through a hidden variable with
+                  loop.index0 to know which entry to delete in todoapp.py
+                  list of to dos -->
+                  <form action="/delete" method="post">
+                    <input type="submit" value="Delete">
+                    <input type="hidden" name="index" value="{{ loop.index0 }}">
+                  </form>
+                  <!-- End of keeping track -->
+                </td>
+            </tr>
+        {% endfor %}
+    </table><br>
+    <!-- End the display of the to do list -->
+
+    <!-- Start of clear button form to clear To Do List -->
+    <form action="/clear" method="post">
+        <input type="submit" value="Clear">
+    </form><br>
+    <!-- End of clear button form to clear To Do List -->
+
+    <!-- Start of add to To Do table form -->
+    <b>Add a Task:</b><br>
+    <form action="/submit" method="post">
+        Task: <input type="text" name="task"><br>
+        Email: <input type="text" name="email"><br>
+        Priority: <select type="select" name="priority">
+        <option>Select a level</option>
+        <option>--------------</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option></select><br>
+        <input type="submit" value="Add To Do Item">
+
+    </form><br>
+    <!-- End of add to To Do table form -->
+
+  <!-- Displays an error message with validation tests -->
+  <font color="red">{{status}}</font>
+
+  </body>
+</html>
+<!-- End of HTML Doc -->
